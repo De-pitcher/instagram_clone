@@ -4,6 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../resources/auth_methods.dart';
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
 import '../utils/colors.dart';
 import '../utils/utils.dart';
 import '../widgets/text_field_input.dart';
@@ -53,6 +56,15 @@ class _SignupScreenState extends State<SignupScreen> {
       setState(() => _isLoading = false);
       if (value != 'success') {
         showSnackbar(value, context);
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => const ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: MobileScreenLayout(),
+            ),
+          ),
+        );
       }
     });
   }
@@ -149,7 +161,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: const Text('Don\'t have an account?'),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const SignupScreen()),
+                    ),
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(

@@ -1,13 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/responsive/mobile_screen_layout.dart';
-import 'package:instagram_clone/responsive/responsive_layout_screen.dart';
-import 'package:instagram_clone/responsive/web_screen_layout.dart';
-import 'package:instagram_clone/screens/login_screen.dart';
-import 'package:instagram_clone/utils/colors.dart';
 
 import 'firebase_options.dart';
-import 'screens/signup_screen.dart';
+import 'resources/auth_methods.dart';
+import 'responsive/mobile_screen_layout.dart';
+import 'responsive/responsive_layout_screen.dart';
+import 'responsive/web_screen_layout.dart';
+import 'screens/login_screen.dart';
+import 'utils/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,11 +27,31 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark()
           .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
-      // home: const ResponsiveLayout(
-      //   webScreenLayout: WebScreenLayout(),
-      //   mobileScreenLayout: MobileScreenLayout(),
-      // ),
-      home: const LoginScreen(),
+      home: StreamBuilder(
+        stream: AuthMethods().user(),
+        builder: (_, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasData) {
+              return const ResponsiveLayout(
+                webScreenLayout: WebScreenLayout(),
+                mobileScreenLayout: MobileScreenLayout(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('${snapshot.error}'),
+              );
+            }
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: primaryColor,
+              ),
+            );
+          }
+          return const LoginScreen();
+        },
+      ),
     );
   }
 }
