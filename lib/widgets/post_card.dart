@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/utils/colors.dart';
@@ -9,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../models/user.dart' as model;
 import '../providers/user_provider.dart';
 import '../resources/firestore_methods.dart';
+import '../screens/comment_screen.dart';
 import 'like_animation.dart';
 
 class PostCard extends StatefulWidget {
@@ -227,14 +230,13 @@ class _PostCardState extends State<PostCard> {
                 icon: const Icon(
                   Icons.comment_outlined,
                 ),
-                // onPressed: () => Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => CommentsScreen(
-                //       postId: widget.snap['postId'].toString(),
-                //     ),
-                //   ),
-                // ),
-                onPressed: null,
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CommentsScreen(
+                      postId: widget.snap['postId'].toString(),
+                    ),
+                  ),
+                ),
               ),
               IconButton(
                   icon: const Icon(
@@ -298,13 +300,13 @@ class _PostCardState extends State<PostCard> {
                       ),
                     ),
                   ),
-                  // onTap: () => Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => CommentsScreen(
-                  //       postId: widget.snap['postId'].toString(),
-                  //     ),
-                  //   ),
-                  // ),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CommentsScreen(
+                        postId: widget.snap['postId'].toString(),
+                      ),
+                    ),
+                  ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 4),
