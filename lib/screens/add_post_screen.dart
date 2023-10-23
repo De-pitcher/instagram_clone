@@ -94,6 +94,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       setState(() {
         isLoading = false;
       });
+      // ignore: use_build_context_synchronously
       showSnackbar(
         err.toString(),
         context,
@@ -128,13 +129,17 @@ class _AddPostScreenState extends State<AddPostScreen> {
             appBar: AppBar(
               backgroundColor: mobileBackgroundColor,
               leading: IconButton(
-                onPressed: () {},
+                onPressed: clearImage,
                 icon: const Icon(Icons.arrow_back),
               ),
               title: const Text('Post to'),
               actions: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => postImage(
+                    user.uid,
+                    user.username,
+                    user.imageUrl,
+                  ),
                   child: const Text(
                     'Post',
                     style: TextStyle(
@@ -148,6 +153,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
             ),
             body: Column(
               children: [
+                isLoading
+                    ? const LinearProgressIndicator()
+                    : const Padding(padding: EdgeInsets.only(top: 0.0)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,18 +177,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       height: 45,
                       width: 45,
                       child: AspectRatio(
-                        aspectRatio: 407 / 451,
+                        aspectRatio: 487 / 451,
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: MemoryImage(_file!),
+                              fit: BoxFit.fill,
+                              alignment: FractionalOffset.topCenter,
                             ),
                           ),
                         ),
                       ),
                     )
                   ],
-                )
+                ),
+                const Divider(),
               ],
             ),
           );
