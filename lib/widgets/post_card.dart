@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../models/user.dart' as model;
 import '../providers/user_provider.dart';
 import '../resources/firestore_methods.dart';
+import 'like_animation.dart';
 
 class PostCard extends StatefulWidget {
   final dynamic snap;
@@ -180,22 +181,22 @@ class _PostCardState extends State<PostCard> {
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
                   opacity: isLikeAnimating ? 1 : 0,
-                  // child: LikeAnimation(
-                  //   isAnimating: isLikeAnimating,
-                  //   duration: const Duration(
-                  //     milliseconds: 400,
-                  //   ),
-                  //   onEnd: () {
-                  //     setState(() {
-                  //       isLikeAnimating = false;
-                  //     });
-                  //   },
-                  //   child: const Icon(
-                  //     Icons.favorite,
-                  //     color: Colors.white,
-                  //     size: 100,
-                  //   ),
-                  // ),
+                  child: LikeAnimation(
+                    isAnimating: isLikeAnimating,
+                    duration: const Duration(
+                      milliseconds: 400,
+                    ),
+                    onEnd: () {
+                      setState(() {
+                        isLikeAnimating = false;
+                      });
+                    },
+                    child: const Icon(
+                      Icons.favorite,
+                      color: Colors.white,
+                      size: 100,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -203,25 +204,25 @@ class _PostCardState extends State<PostCard> {
           // LIKE, COMMENT SECTION OF THE POST
           Row(
             children: <Widget>[
-              // LikeAnimation(
-              //   isAnimating: widget.snap['likes'].contains(user.uid),
-              //   smallLike: true,
-              //   child: IconButton(
-              //     icon: widget.snap['likes'].contains(user.uid)
-              //         ? const Icon(
-              //             Icons.favorite,
-              //             color: Colors.red,
-              //           )
-              //         : const Icon(
-              //             Icons.favorite_border,
-              //           ),
-              //     onPressed: () => FireStoreMethods().likePost(
-              //       widget.snap['postId'].toString(),
-              //       user.uid,
-              //       widget.snap['likes'],
-              //     ),
-              //   ),
-              // ),
+              LikeAnimation(
+                isAnimating: widget.snap['likes'].contains(user.uid),
+                smallLike: true,
+                child: IconButton(
+                  icon: widget.snap['likes'].contains(user.uid)
+                      ? const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        )
+                      : const Icon(
+                          Icons.favorite_border,
+                        ),
+                  onPressed: () => FireStoreMethods().likePost(
+                    widget.snap['postId'].toString(),
+                    user.uid,
+                    widget.snap['likes'],
+                  ),
+                ),
+              ),
               IconButton(
                 icon: const Icon(
                   Icons.comment_outlined,
