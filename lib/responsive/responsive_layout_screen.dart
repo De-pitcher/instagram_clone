@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/utils/dimensions.dart';
+import 'package:instagram_clone/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
@@ -20,7 +20,7 @@ class ResponsiveLayout extends StatefulWidget {
 class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   @override
   void initState() {
-    addUser();
+    Future.delayed(Duration.zero, () async => addUser());
     super.initState();
   }
 

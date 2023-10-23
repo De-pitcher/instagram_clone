@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/utils/colors.dart';
+import 'package:instagram_clone/utils/global_variables.dart';
+
+import '../screens/add_post_screen.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({super.key});
@@ -25,7 +28,10 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     _pageController.dispose();
   }
 
-  void navTab(int page) => setState(() => _page = page);
+  void navTab(int page) {
+    setState(() => _page = page);
+    _pageController.jumpToPage(page);
+  }
 
   void onPageChanged(int page) => setState(() => _page = page);
 
@@ -36,13 +42,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         onPageChanged: onPageChanged,
-        children: const [
-          Text('feed'),
-          Text('Search'),
-          Text('Add post'),
-          Text('Favorite'),
-          Text('Profile'),
-        ],
+        children: homeScreenItems,
       ),
       bottomNavigationBar: CupertinoTabBar(
         backgroundColor: mobileBackgroundColor,
